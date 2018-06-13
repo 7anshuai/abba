@@ -37,10 +37,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "body-parser": "^1.18.2",
+    "ejs": "^2.6.1",
     "express": "^4.16.2",
+    "http-errors": "^1.6.3",
     "mongoose": "^5.1.5",
     "morgan": "^1.9.0",
-    "pug": "^2.0.0-beta11",
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
