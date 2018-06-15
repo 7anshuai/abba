@@ -1,8 +1,543 @@
+html,
 body {
-  padding: 50px;
-  font: 14px sans-serif;
+  padding: 0;
+  margin: 0;
 }
-
+body {
+  padding: 40px 0 0 0;
+  background: #f6f6f6;
+  font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+h1,
+h2 {
+  text-rendering: optimizelegibility;
+}
 a {
-  color: #00B7FF;
+  color: #08c;
+  text-decoration: none;
+  outline: none;
+}
+a:hover {
+  color: #005580;
+  text-decoration: underline;
+}
+menu {
+  background: #212121;
+  display: block;
+  overflow: hidden;
+  height: 40px;
+  border-bottom: 1px solid #505050;
+  position: fixed;
+  margin: 0;
+  padding: 0 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+menu li {
+  float: left;
+}
+menu a {
+  color: #999;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 40px;
+  padding: 0 16px;
+  display: block;
+  -webkit-transition: color 0.5s ease;
+  -moz-transition: color 0.5s ease;
+  -ms-transition: color 0.5s ease;
+  -o-transition: color 0.5s ease;
+  transition: color 0.5s ease;
+}
+menu a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+menu a.selected {
+  color: #fff;
+  background: #000;
+}
+menu h1 {
+  float: right;
+  margin: 0;
+  line-height: 14px;
+  padding: 0 16px;
+}
+menu h1 a {
+  font-size: 22px;
+  color: #000;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+  text-decoration: none;
+  font-weight: 500;
+}
+section.header header {
+  background-color: #3d3d45;
+  background-image: -webkit-linear-gradient(#3d3d45, #29292f);
+  background-image: -moz-linear-gradient(#3d3d45, #29292f);
+  background-image: -ms-linear-gradient(#3d3d45, #29292f);
+  background-image: -o-linear-gradient(#3d3d45, #29292f);
+  background: linear-gradient(#3d3d45, #29292f);
+  overflow: hidden;
+  padding: 40px 30px;
+  border-bottom: 1px solid #e6e6e6;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  -ms-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  -o-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 0 30px rgba(0,0,0,0.075);
+}
+section.header header h1 {
+  color: #fff;
+  overflow: hidden;
+  font-size: 60px;
+  margin: 0 0 10px 0;
+}
+section.header header h2 {
+  font-weight: 300;
+  font-size: 27px;
+  line-height: 30px;
+  margin: 0;
+  color: #c5c5c5;
+}
+.container {
+  overflow: hidden;
+  position: relative;
+  margin: 30px;
+  padding: 39px 19px 14px;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  -ms-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  -o-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+}
+.container h3 {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 4px 0 4px 0;
+  -moz-border-radius: 4px 0 4px 0;
+  -ms-border-radius: 4px 0 4px 0;
+  -o-border-radius: 4px 0 4px 0;
+  border-radius: 4px 0 4px 0;
+  line-height: 20px;
+  color: #9da0a4;
+  margin: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+table.table {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  line-height: 20px;
+}
+table.table thead th {
+  vertical-align: bottom;
+  font-weight: bold;
+  border-top: none;
+}
+table.table th,
+table.table td {
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+input[type=text],
+input[type=date] {
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-family: 'Helvetica Neue', Helvetica, Arial Geneva, sans-serif;
+  -webkit-box-shadow: inset 0 1px 2px rgba(130,137,150,0.23), 0 1px 0 rgba(255,255,255,0.85);
+  -moz-box-shadow: inset 0 1px 2px rgba(130,137,150,0.23), 0 1px 0 rgba(255,255,255,0.85);
+  -ms-box-shadow: inset 0 1px 2px rgba(130,137,150,0.23), 0 1px 0 rgba(255,255,255,0.85);
+  -o-box-shadow: inset 0 1px 2px rgba(130,137,150,0.23), 0 1px 0 rgba(255,255,255,0.85);
+  box-shadow: inset 0 1px 2px rgba(130,137,150,0.23), 0 1px 0 rgba(255,255,255,0.85);
+  border: 1px solid #b4becd;
+  border-top-color: #b0baca;
+  border-bottom-color: #d3d9e2;
+  padding: 3px 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input[type=text]:focus,
+input[type=date]:focus {
+  border-color: #70a7e4;
+  outline: none;
+  -webkit-box-shadow: inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #5695db;
+  -moz-box-shadow: inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #5695db;
+  -ms-box-shadow: inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #5695db;
+  -o-box-shadow: inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #5695db;
+  box-shadow: inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #5695db;
+}
+select:focus {
+  outline: none;
+}
+.nav {
+  width: 270px;
+  margin: 30px 0 0 30px;
+  height: 100%;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.nav article {
+  margin: 0 0 30px 0;
+}
+.nav p {
+  margin: 0 0 5px 0;
+}
+.nav p:last-child {
+  margin-bottom: 0;
+}
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+section.experiment {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  -webkit-box-pack: start;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  -moz-box-pack: start;
+}
+section.experiment > article {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  overflow: hidden;
+}
+section.experiment form input[type=date] {
+  font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  min-width: 145px;
+}
+section.experiment form label {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  -webkit-box-pack: start;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  -moz-box-pack: start;
+}
+section.experiment form label span {
+  display: block;
+  width: 80px;
+  line-height: 25px;
+}
+section.experiment form label span:after {
+  content: ':';
+}
+section.experiment form label input,
+section.experiment form label select {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+}
+section.experiment form label select {
+  display: block;
+  margin-top: 3px;
+}
+section.experiment form label:last-child {
+  margin-bottom: 0;
+}
+section.experiment table .conversion:empty:after,
+section.experiment table .probability:empty:after,
+section.experiment table .difference:empty:after {
+  content: 'â€“';
+}
+section.experiment table .conversion:not(:empty):after,
+section.experiment table .probability:not(:empty):after,
+section.experiment table .difference:not(:empty):after {
+  content: '%';
+}
+section.experiment table .difference.positive:before {
+  content: '+';
+}
+section.experiment table .difference.positive {
+  color: #209b00;
+}
+section.experiment table .difference.negative {
+  color: #8b1c1c;
+}
+section.experiment article.chart {
+  border: 1px solid #dbdbdb;
+  margin: 30px;
+}
+section.experiment .chart {
+  position: relative;
+  font-size: 10px;
+}
+section.experiment .chart .areas {
+  opacity: 0.1;
+}
+section.experiment .chart .line {
+  stroke-width: 2px;
+}
+section.experiment .chart .circle {
+  stroke-width: 3px;
+  fill: #fff;
+}
+section.experiment .chart .axis.y {
+  fill: #a2a8b1;
+}
+section.experiment .chart .axis.y path {
+  display: none;
+}
+section.experiment .chart .axis.x {
+  fill: #a2a8b1;
+}
+section.experiment .chart .axis.x path {
+  fill: #dcdcdc;
+}
+section.experiment .chart .variants {
+  fill: none;
+}
+section.experiment .chart .variant-0 .circle {
+  stroke: #a7d3dc;
+}
+section.experiment .chart .variant-1 .circle {
+  stroke: #ff8a60;
+}
+section.experiment .chart .variant-2 .circle {
+  stroke: #9d96d3;
+}
+section.experiment .chart .variant-3 .circle {
+  stroke: #d62728;
+}
+section.experiment .chart .variant-4 .circle {
+  stroke: #9467bd;
+}
+section.experiment .chart .variant-5 .circle {
+  stroke: #8c564b;
+}
+section.experiment .chart .variant-6 .circle {
+  stroke: #e377c2;
+}
+section.experiment .chart .variant-7 .circle {
+  stroke: #7f7f7f;
+}
+section.experiment .chart .variant-8 .circle {
+  stroke: #bcbd22;
+}
+section.experiment .chart .variant-9 .circle {
+  stroke: #17becf;
+}
+section.experiment .chart .variant-0 .line {
+  stroke: #a7d3dc;
+}
+section.experiment .chart .variant-1 .line {
+  stroke: #ff8a60;
+}
+section.experiment .chart .variant-2 .line {
+  stroke: #9d96d3;
+}
+section.experiment .chart .variant-3 .line {
+  stroke: #d62728;
+}
+section.experiment .chart .variant-4 .line {
+  stroke: #9467bd;
+}
+section.experiment .chart .variant-5 .line {
+  stroke: #8c564b;
+}
+section.experiment .chart .variant-6 .line {
+  stroke: #e377c2;
+}
+section.experiment .chart .variant-7 .line {
+  stroke: #7f7f7f;
+}
+section.experiment .chart .variant-8 .line {
+  stroke: #bcbd22;
+}
+section.experiment .chart .variant-9 .line {
+  stroke: #17becf;
+}
+section.experiment .chart .areas {
+  display: none;
+}
+section.experiment .chart .area-0 {
+  fill: #a7d3dc;
+}
+section.experiment .chart .area-1 {
+  fill: #ff8a60;
+}
+section.experiment .chart .area-2 {
+  fill: #9d96d3;
+}
+section.experiment .chart .area-3 {
+  fill: #d62728;
+}
+section.experiment .chart .area-4 {
+  fill: #9467bd;
+}
+section.experiment .chart .area-5 {
+  fill: #8c564b;
+}
+section.experiment .chart .area-6 {
+  fill: #e377c2;
+}
+section.experiment .chart .area-7 {
+  fill: #7f7f7f;
+}
+section.experiment .chart .area-8 {
+  fill: #bcbd22;
+}
+section.experiment .chart .area-9 {
+  fill: #17becf;
+}
+section.experiment .chart ul.legend {
+  list-style: none;
+  margin: 0;
+  position: absolute;
+  top: -20px;
+  right: 0px;
+  overflow: hidden;
+  color: #696969;
+  font-size: 11px;
+}
+section.experiment .chart ul.legend li {
+  margin-right: 32px;
+  position: relative;
+}
+section.experiment .chart ul.legend li:after {
+  content: '';
+  display: block;
+  width: 25px;
+  height: 3px;
+  position: absolute;
+  right: -32px;
+  top: 5px;
+}
+section.experiment .chart ul.legend .legend-0:after {
+  background-color: #a7d3dc;
+}
+section.experiment .chart ul.legend .legend-1:after {
+  background-color: #ff8a60;
+}
+section.experiment .chart ul.legend .legend-2:after {
+  background-color: #9d96d3;
+}
+section.experiment .chart ul.legend .legend-3:after {
+  background-color: #d62728;
+}
+section.experiment .chart ul.legend .legend-4:after {
+  background-color: #9467bd;
+}
+section.experiment .chart ul.legend .legend-5:after {
+  background-color: #8c564b;
+}
+section.experiment .chart ul.legend .legend-6:after {
+  background-color: #e377c2;
+}
+section.experiment .chart ul.legend .legend-7:after {
+  background-color: #7f7f7f;
+}
+section.experiment .chart ul.legend .legend-8:after {
+  background-color: #bcbd22;
+}
+section.experiment .chart ul.legend .legend-9:after {
+  background-color: #17becf;
+}
+section.experiments {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  -webkit-box-pack: start;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  -moz-box-pack: start;
+}
+section.experiments .list {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  margin-right: 0px;
+}
+section.experiments .new {
+  width: 420px;
+  height: 100%;
+}
+section.experiments pre {
+  margin: 0;
+  overflow-x: auto;
+}
+section.experiments table tr td.state {
+  width: 10px;
+  vertical-align: middle;
+}
+section.experiments table tr td.state div {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+}
+section.experiments table tr td.state div.active {
+  background-color: #82c82d;
+}
+section.experiments table tr td.state div.inactive {
+  background-color: #b90000;
+}
+section.experiments table tr .index {
+  width: 20px;
+}
+section.experiments table tr .actions {
+  text-align: right;
 }

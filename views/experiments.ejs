@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/styles/style.css' />
+  </head>
+  <body>
+    <menu>
+      <ul>
+        <li><a href="/admin/experiments">Experiments</a></li>
+      </ul>
+
+      <h1><a href="/">Abba</a></h1>
+    </menu>
+
+    <section class="header">
+      <header>
+        <h1>Experiments</h1>
+        <h2>Your a/b tests and results</h2>
+      </header>
+    </section>
+
+    <section class="experiments">
+      <article class="container list">
+        <h3>Experiments</h3>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="state"></th>
+              <th class="index">#</th>
+              <th class="name">Name</th>
+              <th class="visitors">Visitors</th>
+              <th class="actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% experiments.forEach(function(experiment, index) { %>
+              <tr>
+                <td class="state">
+                  <div class="<%= experiment.running ? 'active' : 'inactive' %>" title="<%= experiment.running ? 'Running' : 'Stopped' %>"></div>
+                </td>
+                <td class="index"><%= index %></td>
+
+                <td class="name">
+                  <a href="/admin/experiments/<%= experiment.id %>">
+                    <%= experiment.name %>
+                  </a>
+                </td>
+
+                <td class="visitors">
+                  <%= variants[index].reduce((accumulator, currentValue) => accumulator + currentValue.started_count, 0) %>
+                </td>
+                <td class="actions">
+                  <a href="/admin/experiments/<%= experiment.id %>" data-method="delete" data-confirm="Are you sure?">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="container new">
+        <h3>New Experiment</h3>
+        <pre><%= `
+<script src="//${host}/scripts/abba.js"></script>
+
+<script>
+  Abba('test name')
+    .control('test a', function(){ /* ... */ })
+    .variant('test b', function(){ /* ... */ })
+    .start();
+</script>
+
+<script>
+  // On successful conversion
+  Abba('test name').complete();
+</script>` %>
+        </pre>
+      </article>
+    </section>
+  </body>
+</html>

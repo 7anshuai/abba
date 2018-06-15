@@ -37,6 +37,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "body-parser": "^1.18.2",
+    "chalk": "^2.4.1",
     "ejs": "^2.6.1",
     "express": "^4.16.2",
     "http-errors": "^1.6.3",

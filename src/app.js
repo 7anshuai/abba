@@ -3,10 +3,24 @@ import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import createError from 'http-errors';
+import chalk from 'chalk';
+import mongoose from 'mongoose';
 
 import routes from './routes';
 
 const app = express();
+
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(connection => {
+    console.log('%s Connected to MongoDB', chalk.green('✓'));
+  })
+  .catch(err => {
+    console.error(err);
+    console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+    process.exit();
+  });
 
 // View engine setup
 app.set('views', path.join(__dirname, '../views'));
