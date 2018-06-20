@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <meta charset="utf-8">
+    <title><%= setTitle(title) %></title>
     <link rel='stylesheet' href='/styles/style.css' />
   </head>
   <body>
@@ -49,7 +50,7 @@
                 </td>
 
                 <td class="visitors">
-                  <%= variants[index].reduce((accumulator, currentValue) => accumulator + currentValue.started_count, 0) %>
+                  <%= experiment.variants.reduce((accumulator, currentValue) => accumulator + currentValue.started_count, 0) %>
                 </td>
                 <td class="actions">
                   <a href="/admin/experiments/<%= experiment.id %>" data-method="delete" data-confirm="Are you sure?">
