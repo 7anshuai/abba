@@ -62,4 +62,25 @@ routes.get('/admin/experiments', (req, res, next) => {
     });
 });
 
+/**
+ * GET /admin/experiments/:id
+ */
+routes.get('/admin/experiments/:id', (req, res, next) => {
+
+  Experiment
+    .findById(req.params.id)
+    .then(experiment => {
+      if (!experiment) return res.redirect('/admin/experiments');
+      Variant
+        .find({experiment_id: experiment.id})
+        .then(variants => {
+          res.render('experiment', {title: `${experiment.name}`, experiment, variants, tranche: ''});
+        });
+    })
+    .catch(err => {
+      console.error(err);
+      next(err);
+    });
+});
+
 export default routes;

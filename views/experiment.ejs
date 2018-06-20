@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="1800">
+    <title><%= setTitle(title) %></title>
+    <link rel='stylesheet' href='/styles/style.css' />
+  </head>
+  <body>
+    <menu>
+      <ul>
+        <li><a href="/admin/experiments">Experiments</a></li>
+      </ul>
+
+      <h1><a href="/">Abba</a></h1>
+    </menu>
+
+    <section class="header">
+      <header>
+        <h1><%= experiment.name %></h1>
+        <h2>Experiments results</h2>
+      </header>
+    </section>
+
+    <section class="experiment">
+      <nav class="nav">
+        <form method="get">
+          <article class="container">
+            <h3>Actions</h3>
+            <p>
+              <a href="/admin/experiments/<%= experiment.id %>/toggle" data-method="put" data-confirm="Are you sure?">
+                <%= experiment.running ? "End experiment" : "Start experiment" %>
+              </a>
+            </p>
+
+            <p>
+              <a href="/admin/experiments/<%= experiment.id %>" data-method="delete" data-confirm="Are you sure you want to delete this experiment?">Delete experiment</a>
+            </p>
+          </article>
+
+          <article class="container">
+            <h3>Time period</h3>
+
+            <label>
+              <span>From</span>
+              <input type="date" name="start_at" value="">
+            </label>
+
+            <label>
+              <span>End</span>
+              <input type="date" name="end_at">
+            </label>
+          </article>
+
+          <article class="container">
+            <h3>Filter</h3>
+
+            <label>Browser</label>
+            <select name="tranche">
+              <option value="">All</option>
+              <option <%= selected('chrome', tranche) %> value="chrome">Chrome</option>
+              <option <%= selected('safari', tranche) %> value="safari">Safari</option>
+              <option <%= selected('firefox', tranche) %> value="firefox">Firefox</option>
+              <option <%= selected('ie', tranche) %> value="ie">All IE</option>
+              <option <%= selected('ie6', tranche) %> value="ie6">IE 6</option>
+              <option <%= selected('ie7', tranche) %> value="ie7">IE 7</option>
+              <option <%= selected('ie8', tranche) %> value="ie8">IE 8</option>
+              <option <%= selected('ie9', tranche) %> value="ie9">IE 9</option>
+              <option <%= selected('ie10', tranche) %> value="ie10">IE 10</option>
+              <option <%= selected('ie11', tranche) %> value="ie11">IE 11</option>
+              <option <%= selected('mobile', tranche) %> value="mobile">Mobile</option>
+            </select>
+          </article>
+        </form>
+      </nav>
+
+      <article>
+        <article class="container">
+          <h3>Variants</h3>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Conversions / Visitors</th>
+                <th>Conversion rate</th>
+                <th>Probability</th>
+                <th>Improvement</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% variants.forEach(function (variant){ %>
+                <tr data-id="<%= variant.id %>">
+                  <td class="name"><%= variant.name %></td>
+                  <td class="overall"><%= variant.completed_count %> / <%= variant.started_count %></td>
+                  <td class="conversion"></td>
+                  <td class="probability"></td>
+                  <td class="difference"></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </article>
+
+        <div>
+          <article class="container">
+            <h3>Conversion over time</h3>
+
+            <div class="chart"></div>
+          </article>
+        </div>
+      </article>
+    </section>
+
+  </body>
+</html>
