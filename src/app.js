@@ -49,6 +49,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
+  if (req.xhr) return res.json({message: res.locals.message, error: res.locals.error});
   res.render('error');
 });
 

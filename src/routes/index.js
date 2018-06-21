@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import createError from 'http-errors';
 
 import Experiment from '../models/Experiment';
 import Variant from '../models/Variant';
@@ -58,6 +59,28 @@ routes.get('/admin/experiments', (req, res, next) => {
     })
     .catch(err => {
       console.error(err);
+      next(err);
+    });
+});
+
+/**
+ * PUT /admin/experiments/:id/toggle
+ */
+routes.put('/admin/experiments/:id/toggle', (req, res, next) => {
+  Experiment
+    .findById(req.params.id)
+    .then(experiment => {
+      if (!experiment) return next(createError(404));
+      experiment.running = !experiment.running;
+      experiment
+        .save()
+        .then(() => {
+          res.json({});
+        })
+        .catch(err => {
+          next(err);
+        });
+    }).catch(err => {
       next(err);
     });
 });
