@@ -43,12 +43,12 @@
 
             <label>
               <span>From</span>
-              <input type="date" name="start_at" value="">
+              <input type="date" name="start_at" value="<%= start_at.format('YYYY-MM-DD') %>">
             </label>
 
             <label>
               <span>End</span>
-              <input type="date" name="end_at">
+              <input type="date" name="end_at" value="<%= end_at.format('YYYY-MM-DD') %>">
             </label>
           </article>
 
@@ -114,5 +114,12 @@
     </section>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/zepto@1.2.0/dist/zepto.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('form').on('change', function() {
+          $(this).submit();
+        });
+      });
+    </script>
   </body>
 </html>

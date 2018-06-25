@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import createError from 'http-errors';
+import moment from 'moment';
 
 import Experiment from '../models/Experiment';
 import Variant from '../models/Variant';
@@ -89,19 +90,47 @@ routes.put('/admin/experiments/:id/toggle', (req, res, next) => {
  * GET /admin/experiments/:id
  */
 routes.get('/admin/experiments/:id', (req, res, next) => {
-
   Experiment
     .findById(req.params.id)
     .then(experiment => {
       if (!experiment) return res.redirect('/admin/experiments');
+
+      let {start_at, end_at, tranche} = req.query;
+      start_at = start_at ? moment(start_at) : moment().max(experiment.created_at, moment().add(-30, 'days'));
+      end_at = end_at ? moment(end_at) : moment().utc();
+
+      start_at = start_at.startOf('day');
+      end_at = end_at.endOf('day');
+
+      let params = {
+        start_at: start_at.format('YYYY-MM-DD'),
+        end_at: end_at.format('YYYY-MM-DD'),
+        tranche
+      };
+
       Variant
         .find({experiment_id: experiment.id})
         .then(variants => {
-          res.render('experiment', {title: `${experiment.name}`, experiment, variants, tranche: ''});
+          res.render('experiment', {title: `${experiment.name}`, experiment, variants, start_at, end_at, tranche, params});
         });
     })
     .catch(err => {
       console.error(err);
+      next(err);
+    });
+});
+
+/**
+ * DELETE /admin/experiments/:id
+ */
+routes.delete('/admin/experiments/:id', (req, res, next) => {
+  Experiment
+    .deleteOne({_id: req.params.id})
+    .then((result) => {
+      if (!result.ok) return next(createError(500));
+      res.json({});
+    })
+    .catch(err => {
       next(err);
     });
 });
