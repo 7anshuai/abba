@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import { check, validationResult } from 'express-validator/check';
 import createError from 'http-errors';
 import moment from 'moment';
 
 import Experiment from '../models/Experiment';
 import Variant from '../models/Variant';
+import { VariantPresentorGroup } from '../models/VariantPresentor';
 
 const routes = Router();
 
@@ -11,6 +13,10 @@ const routes = Router();
  * Set helper methods
  */
 routes.use(function(req, res, next) {
+  res.locals.dir = function(value) {
+    if (!value || value == 0) return;
+    return value > 0 ? 'positive' : 'negative';
+  }
   res.locals.setTitle = function(value = null) {
     let title;
     if (value)
@@ -65,6 +71,35 @@ routes.get('/admin/experiments', (req, res, next) => {
 });
 
 /**
+ * GET /admin/experiments/:id/chart
+ */
+routes.get('/admin/experiments/:id/chart', check(['start_at', 'end_at']).exists() ,(req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(422).json({errros: errors.array()});
+
+  let {start_at, end_at, tranche} = req.query;
+
+  Experiment
+    .findById(req.params.id)
+    .then(async experiment => {
+      start_at = moment(start_at).startOf('day');
+      end_at = moment(end_at).endOf('day');
+
+      let rates = await experiment.granularConversionRate({
+        start_at,
+        end_at,
+        tranche
+      });
+      res.json(rates);
+
+    })
+    .catch(err => {
+      console.error(err);
+      next(err);
+    })
+});
+
+/**
  * PUT /admin/experiments/:id/toggle
  */
 routes.put('/admin/experiments/:id/toggle', (req, res, next) => {
@@ -92,7 +127,7 @@ routes.put('/admin/experiments/:id/toggle', (req, res, next) => {
 routes.get('/admin/experiments/:id', (req, res, next) => {
   Experiment
     .findById(req.params.id)
-    .then(experiment => {
+    .then(async experiment => {
       if (!experiment) return res.redirect('/admin/experiments');
 
       let {start_at, end_at, tranche} = req.query;
@@ -108,11 +143,34 @@ routes.get('/admin/experiments/:id', (req, res, next) => {
         tranche
       };
 
-      Variant
-        .find({experiment_id: experiment.id})
-        .then(variants => {
-          res.render('experiment', {title: `${experiment.name}`, experiment, variants, start_at, end_at, tranche, params});
-        });
+      let variantPresentorGroup = new VariantPresentorGroup(experiment, {
+        start_at,
+        end_at,
+        tranche
+      });
+      await variantPresentorGroup.init();
+
+      let variantPresentors = variantPresentorGroup.each();
+      let variants = [];
+
+      for (let variantPresentor of variantPresentors) {
+        let name = variantPresentor.name();
+        let startedCount = await variantPresentor.startedCount();
+        let completedCount = await variantPresentor.completedCount();
+        let percentConversionRate = await variantPresentor.percentConversionRate();
+        let percentDifference = await variantPresentor.percentDifference();
+        variants.push({name, startedCount, completedCount, percentConversionRate, percentDifference});
+      }
+
+      res.render('experiment', {
+        title: `${experiment.name}`,
+        experiment,
+        variants: variants.sort(function(a, b) { return b.percentConversionRate - a.percentConversionRate}),
+        start_at,
+        end_at,
+        tranche,
+        params
+      });
     })
     .catch(err => {
       console.error(err);

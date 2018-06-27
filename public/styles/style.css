@@ -295,7 +295,7 @@ section.experiment form label:last-child {
 section.experiment table .conversion:empty:after,
 section.experiment table .probability:empty:after,
 section.experiment table .difference:empty:after {
-  content: 'â€“';
+  content: '–';
 }
 section.experiment table .conversion:not(:empty):after,
 section.experiment table .probability:not(:empty):after,

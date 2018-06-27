@@ -93,10 +93,10 @@
               <% variants.forEach(function (variant){ %>
                 <tr data-id="<%= variant.id %>">
                   <td class="name"><%= variant.name %></td>
-                  <td class="overall"><%= variant.completed_count %> / <%= variant.started_count %></td>
-                  <td class="conversion"></td>
-                  <td class="probability"></td>
-                  <td class="difference"></td>
+                  <td class="overall"><%= variant.completedCount.length %> / <%= variant.startedCount.length %></td>
+                  <td class="conversion <%= dir(variant.percentConversionRate) %>"><%= variant.percentConversionRate %></td>
+                  <td class="probability <%= dir(variant.probability) %>"></td>
+                  <td class="difference <%= dir(variant.percentDifference) %>"><%= variant.percentDifference %></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -113,9 +113,18 @@
       </article>
     </section>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/zepto@1.2.0/dist/zepto.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="/scripts/d3.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript">
       $(function() {
+        var chart = new Chart({
+          el: $('.chart'),
+          model: <%- JSON.stringify(experiment) %>,
+          params: <%- JSON.stringify(params) %>
+        });
+        chart.fetch();
+
         $('form').on('change', function() {
           $(this).submit();
         });
