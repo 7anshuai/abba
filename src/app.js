@@ -4,11 +4,13 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import createError from 'http-errors';
 import chalk from 'chalk';
+import createDebug from 'debug';
 import mongoose from 'mongoose';
 
 import routes from './routes';
 
 const app = express();
+const debug = createDebug('abba:app');
 
 // Connect to MongoDB
 mongoose
@@ -52,5 +54,14 @@ app.use(function(err, req, res, next) {
   if (req.xhr) return res.json({message: res.locals.message, error: res.locals.error});
   res.render('error');
 });
+
+// When app.js is the entry
+if (require.main === module) {
+  const server = app.listen(process.env.PORT || '3000', process.env.HOST || '127.0.0.1', () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    debug(`Server listening at http://${host}:${port}`);
+  });
+}
 
 export default app;
