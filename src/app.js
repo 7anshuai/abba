@@ -8,6 +8,7 @@ import createDebug from 'debug';
 import mongoose from 'mongoose';
 
 import routes from './routes';
+import api from './routes/api';
 
 const app = express();
 const debug = createDebug('abba:app');
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // Routes
 app.use('/', routes);
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

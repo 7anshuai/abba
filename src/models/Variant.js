@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
 
+import Request from './Request';
 import VariantPresentor from './VariantPresentor';
 
 const variantSchema = new mongoose.Schema({
@@ -20,6 +21,30 @@ const variantSchema = new mongoose.Schema({
   },
   collection: 'abba.variants'
 });
+
+variantSchema.methods.start = function(req) {
+  this.started_count += 1;
+  return this.save()
+    .then(() => {
+      return Request
+        .create({
+          started_request_id: this.id,
+          completed_request_id: null,
+          started_request_type: 'Abba::Variant'
+        })
+        .then(request => {
+          request.request(req);
+          return request.save();
+        })
+        .catch(err => {
+          throw err;
+        });
+  });
+}
+
+variantSchema.methods.complete = function(req) {
+  this.completed_count +=1
+}
 
 variantSchema.methods.conversionRateFor = async function(options = {}) {
   let variantPresentor = new VariantPresentor(this, null, options);

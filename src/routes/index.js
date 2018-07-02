@@ -73,7 +73,7 @@ routes.get('/admin/experiments', (req, res, next) => {
 /**
  * GET /admin/experiments/:id/chart
  */
-routes.get('/admin/experiments/:id/chart', check(['start_at', 'end_at']).exists() ,(req, res, next) => {
+routes.get('/admin/experiments/:id/chart', check(['start_at', 'end_at']).exists(), (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(422).json({errros: errors.array()});
 

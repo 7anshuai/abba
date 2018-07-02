@@ -1,0 +1,37 @@
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/zepto@1.2.0/dist/zepto.min.js"></script>
+<script src="/scripts/abba.js" type="text/javascript" charset="utf-8"></script>
+
+<h1 id="test">The control was chosen!</h1>
+
+<script type="text/javascript" charset="utf-8">
+  Abba('My Test')
+    .control('Control', {weight: 5})
+    .variant('Variant 1', {weight: 10}, function(){
+      $('#test').text('Variant 1 was chosen!');
+    })
+    .variant('Variant 2', {weight: 9}, function(){
+      $('#test').text('Variant 2 was chosen!');
+    })
+    .start();
+
+  // Reset test
+  // Abba('My Checkout').reset();
+
+  // Continue a previously started test
+  // Abba('My Checkout')
+  //   .control()
+  //   .variant('Variant 1', function(){
+  //     $('#test').text('Variant 1 was chosen!');
+  //   })
+  //   .variant('Variant 2', function(){
+  //     $('#test').text('Variant 2 was chosen!');
+  //   })
+  //   .continue();
+
+  // Chose a specific variant
+  // Abba('My Checkout').start('Another var');
+</script>
+
+<p>
+  <a href="complete.html" class="complete">Now complete the test.</a>
+</p>

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import parser from 'ua-parser-js';
 
 const requestSchema = new mongoose.Schema({
   url: String,
@@ -9,6 +10,7 @@ const requestSchema = new mongoose.Schema({
   platform: String,
   mobile: {type: Boolean},
 
+  started_request_type: String,
   started_request_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Variant'},
   completed_request_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Variant'}
 }, {
@@ -31,6 +33,20 @@ requestSchema.statics.TRANCHES = {
   ie10:    {browser: 'Internet Explorer', browser_version: '10.0'},
   ie11:    {browser: 'Internet Explorer', browser_version: '11.0'},
   mobile:  {mobile: true}
+}
+
+requestSchema.methods.request = function(request) {
+  this.url = request.get('Referrer');
+  this.ip = request.ip;
+  this.user_agent = request.headers['user-agent'];
+
+  const ua = parser(this.user_agent);
+  this.browser = ua.browser.name;
+  this.version = ua.browser.version;
+  this.platform = ua.os.name;
+  this.mobile = ua.device.type == 'mobile'
+
+  return this
 }
 
 const Request = mongoose.model('Request', requestSchema);
