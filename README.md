@@ -12,7 +12,7 @@ It's a node.js clone with small improvement over [@maccman](https://github.com/m
 
 ### Requirements
 
-- Node.js 8.x+
+- Node.js 6+
 - MongoDB
 
 ## Getting started
