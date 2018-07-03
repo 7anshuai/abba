@@ -90,6 +90,26 @@ The project uses [dotenv](https://www.npmjs.com/package/dotenv) for setting envi
 
 It is **strongly** recommended **never** to check in your .env file to version control. It should only include environment-specific values such as database passwords or API keys used in development. Your production env variables should be different and be set differently depending on your hosting solution. `dotenv` is only for development.
 
+### Using docker in development
+
+You will need docker and docker-compose installed to build the application.
+
+- [Docker installation](https://docs.docker.com/engine/installation/)
+
+- [Common problems setting up docker](https://docs.docker.com/toolbox/faqs/troubleshoot/)
+
+After installing docker, start the application with the following commands:
+
+```
+# To build the project for the first time or when you add dependencies
+$ docker-compose build web
+
+# To start the application (or to restart after making changes to the source code)
+$ docker-compose up web
+```
+
+To view the app, find your docker ip address + port 8080 ( this will typically be http://192.168.99.100:8080/ ).
+
 ### Deployment
 
 Deployment is specific to hosting platform/provider but generally:

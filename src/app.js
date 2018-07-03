@@ -59,7 +59,7 @@ app.use(function(err, req, res, next) {
 
 // When app.js is the entry
 if (require.main === module) {
-  const server = app.listen(process.env.PORT || '3000', process.env.HOST || '127.0.0.1', () => {
+  const server = app.listen(process.env.PORT || '8080', process.env.HOST || '127.0.0.1', () => {
     const host = server.address().address;
     const port = server.address().port;
     debug(`Server listening at http://${host}:${port}`);
