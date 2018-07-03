@@ -24,7 +24,8 @@ const variantSchema = new mongoose.Schema({
 
 variantSchema.methods.start = function(req) {
   this.started_count += 1;
-  return this.save()
+  return this
+    .save()
     .then(() => {
       return Request
         .create({
@@ -39,11 +40,33 @@ variantSchema.methods.start = function(req) {
         .catch(err => {
           throw err;
         });
+  }).catch(err => {
+    throw err;
   });
 }
 
 variantSchema.methods.complete = function(req) {
-  this.completed_count +=1
+  this.completed_count += 1;
+  return this
+    .save()
+    .then(() => {
+      return Request
+        .create({
+          started_request_id: null,
+          completed_request_id: this.id,
+          completed_request_type: 'Abba::Variant'
+        })
+        .then(request => {
+          request.request(req);
+          return request.save();
+        })
+        .catch(err => {
+          throw err;
+        });
+    })
+    .catch(err => {
+      throw err;
+    });
 }
 
 variantSchema.methods.conversionRateFor = async function(options = {}) {

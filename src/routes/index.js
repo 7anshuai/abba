@@ -26,6 +26,10 @@ routes.use(function(req, res, next) {
   res.locals.selected = function(value, present) {
     if (value === present) return ' selected '
   }
+  res.locals.precisionRound = function (number, precision) {
+    let factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+  }
   next();
 });
 

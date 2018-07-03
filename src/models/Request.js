@@ -11,6 +11,8 @@ const requestSchema = new mongoose.Schema({
   mobile: {type: Boolean},
 
   started_request_type: String,
+  completed_request_type: String,
+
   started_request_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Variant'},
   completed_request_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Variant'}
 }, {
@@ -44,9 +46,9 @@ requestSchema.methods.request = function(request) {
   this.browser = ua.browser.name;
   this.version = ua.browser.version;
   this.platform = ua.os.name;
-  this.mobile = ua.device.type == 'mobile'
+  this.mobile = ua.device.type == 'mobile';
 
-  return this
+  return this;
 }
 
 const Request = mongoose.model('Request', requestSchema);

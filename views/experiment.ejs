@@ -47,7 +47,7 @@
             </label>
 
             <label>
-              <span>End</span>
+              <span>To</span>
               <input type="date" name="end_at" value="<%= end_at.format('YYYY-MM-DD') %>">
             </label>
           </article>
@@ -55,21 +55,23 @@
           <article class="container">
             <h3>Filter</h3>
 
-            <label>Browser</label>
-            <select name="tranche">
-              <option value="">All</option>
-              <option <%= selected('chrome', tranche) %> value="chrome">Chrome</option>
-              <option <%= selected('safari', tranche) %> value="safari">Safari</option>
-              <option <%= selected('firefox', tranche) %> value="firefox">Firefox</option>
-              <option <%= selected('ie', tranche) %> value="ie">All IE</option>
-              <option <%= selected('ie6', tranche) %> value="ie6">IE 6</option>
-              <option <%= selected('ie7', tranche) %> value="ie7">IE 7</option>
-              <option <%= selected('ie8', tranche) %> value="ie8">IE 8</option>
-              <option <%= selected('ie9', tranche) %> value="ie9">IE 9</option>
-              <option <%= selected('ie10', tranche) %> value="ie10">IE 10</option>
-              <option <%= selected('ie11', tranche) %> value="ie11">IE 11</option>
-              <option <%= selected('mobile', tranche) %> value="mobile">Mobile</option>
-            </select>
+            <label>
+              <span>Browser</span>
+              <select name="tranche">
+                <option value="">All</option>
+                <option <%= selected('chrome', tranche) %> value="chrome">Chrome</option>
+                <option <%= selected('safari', tranche) %> value="safari">Safari</option>
+                <option <%= selected('firefox', tranche) %> value="firefox">Firefox</option>
+                <option <%= selected('ie', tranche) %> value="ie">All IE</option>
+                <option <%= selected('ie6', tranche) %> value="ie6">IE 6</option>
+                <option <%= selected('ie7', tranche) %> value="ie7">IE 7</option>
+                <option <%= selected('ie8', tranche) %> value="ie8">IE 8</option>
+                <option <%= selected('ie9', tranche) %> value="ie9">IE 9</option>
+                <option <%= selected('ie10', tranche) %> value="ie10">IE 10</option>
+                <option <%= selected('ie11', tranche) %> value="ie11">IE 11</option>
+                <option <%= selected('mobile', tranche) %> value="mobile">Mobile</option>
+              </select>
+            </label>
           </article>
         </form>
       </nav>
@@ -94,7 +96,7 @@
                 <tr data-id="<%= variant.id %>">
                   <td class="name"><%= variant.name %></td>
                   <td class="overall"><%= variant.completedCount.length %> / <%= variant.startedCount.length %></td>
-                  <td class="conversion <%= dir(variant.percentConversionRate) %>"><%= variant.percentConversionRate %></td>
+                  <td class="conversion <%= dir(variant.percentConversionRate) %>"><%= precisionRound(variant.percentConversionRate, 1) %></td>
                   <td class="probability <%= dir(variant.probability) %>"></td>
                   <td class="difference <%= dir(variant.percentDifference) %>"><%= variant.percentDifference %></td>
                 </tr>
