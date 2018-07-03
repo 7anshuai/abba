@@ -1,18 +1,19 @@
 # abba
 
-A mostly unopinionated starter project for using Babel and ES2017+ features in a Node.js server environment as well as providing linting and testing solutions. It provides the setup for compiling, linting and testing your code but doesn't make any further assumptions on how your project should be structured.
+abba is a simple a/b testing framework for JavaScript and Node.js.
 
-It's a small improvement over [Babel's official approach](https://github.com/babel/example-node-server) and [express-generator](https://expressjs.com/en/starter/generator.html).
+It's a node.js clone with small improvement over [@maccman](https://github.com/maccman)'s [Abba](https://github.com/maccman/abba).
 
-Make sure you read the FAQ for more details and info.
+### Features
 
-### Features:
-- [Express.js](https://expressjs.com/) as the web framework.
-- ES2017+ support with [Babel](https://babeljs.io/).
-- Automatic polyfill requires based on environment with [babel-preset-env](https://github.com/babel/babel-preset-env).
-- Linting with [ESLint](http://eslint.org/).
-- Testing with [Jest](https://facebook.github.io/jest/).
-- [Quick deployment guide](DEPLOYMENT.md) for Heroku, AWS Elastic Beanstalk, and App Engine.
+- Simple JavaScript API
+- Multi variant support
+- Filter results by date and browser
+
+### Requirements
+
+- Node.js 8.x+
+- MongoDB
 
 ## Getting started
 
@@ -41,7 +42,7 @@ This will launch a [nodemon](https://nodemon.io/) process for automatic server r
 
 ### Testing
 
-Testing is powered by [Jest](https://facebook.github.io/jest/). This project also uses [supertest](https://github.com/visionmedia/supertest) for demonstrating a simple routing smoke test suite. Feel free to remove supertest entirely if you don't wish to use it.
+Testing is powered by [Jest](https://facebook.github.io/jest/). This project also uses [supertest](https://github.com/visionmedia/supertest) for demonstrating a simple routing smoke test suite.
 
 Start the test runner in watch mode with:
 
@@ -65,7 +66,7 @@ npm test -- --coverage
 
 ### Linting
 
-Linting is set up using [ESLint](http://eslint.org/). It uses ESLint's default [eslint:recommended](https://github.com/eslint/eslint/blob/master/conf/eslint.json) rules. Feel free to use your own rules and/or extend another popular linting config (e.g. [airbnb's](https://www.npmjs.com/package/eslint-config-airbnb) or [standard](https://github.com/feross/eslint-config-standard)).
+Linting is set up using [ESLint](http://eslint.org/). It uses ESLint's default [eslint:recommended](https://github.com/eslint/eslint/blob/master/conf/eslint.json) rules.
 
 Begin linting in watch mode with:
 
@@ -114,6 +115,140 @@ npm start
 will run `build` (via the `prestart` hook) and start the compiled application from the `/dist` folder.
 
 The last command is generally what most hosting providers use to start your application when deployed, so it should take care of everything.
+
+## A/B Testing API
+
+First include abba.js using a script tag. The host of this url will need to point to wherever you deployed the app.
+
+```html
+<script src="//localhost:8080/scripts/abba.js"></script>
+```
+
+Then call `Abba()`, passing in a test name and set up the control test and variants.
+
+```html
+<script>
+  Abba('test name')
+    .control('test a', function(){ /* ... */ })
+    .variant('test b', function(){ /* ... */ })
+    .start();
+</script>
+```
+
+The *control* is whatever you're testing against, and is usually the original page. You should only have one control (and the callback can be omitted).
+
+The *variants* are the variations on the control that you hope will improve conversion. You can specify multiple variants. They require a variant name, and a callback function.
+
+When you call `start()` Abba will randomly execute the control or variants' callbacks, and record the results server side.
+
+Once the user has successfully completed the experiment, say paid and navigated to a receipt page, you need to complete the test. You can do this by invoking `complete()`.
+
+```html
+<script>
+  // On successful conversion
+  Abba('test name').complete();
+</script>
+```
+
+You can find an example under `./public/test`.
+
+### options
+
+#### Persisting results
+
+If set the `persist` option to `true`, then the experiment won't be reset once it has completed. In other words, that visitor will always see that particular variant, and no more results will be recorded for that visitor.
+
+```html
+<script>
+  Abba('Pricing', {persist: true}).complete();
+</script>
+```
+
+#### Weighting
+
+You can set a variant weight, so some variants are used more than others:
+
+```javascript
+Abba('My Checkout')
+  .control('Control', {weight: 20})
+  .variant('Variant 1', {weight: 3}, function(){
+    $('#test').text('Variant 1 was chosen!');
+  })
+  .variant('Variant 2', {weight: 3}, function(){
+    $('#test').text('Variant 2 was chosen!');
+  })
+  .start();
+```
+
+In the case above, the Control will be invoked 20 times more often than the other variants.
+
+### Flow control
+
+You can continue a previously started test using `continue()`.
+
+```javascript
+Abba('My Checkout')
+  .control()
+  .variant('Variant 1', function(){
+    $('#test').text('Variant 1 was chosen!');
+  })
+  .variant('Variant 2', function(){
+    $('#test').text('Variant 2 was chosen!');
+  })
+  .continue();
+```
+
+Nothing will be recorded if you call `continue()` instead of `start()`. If a variant hasn't been chosen previously, nothing will be executed.
+
+You can reset tests using `reset()`.
+
+```javascript
+Abba('My Checkout').reset();
+```
+
+Lastly, you can calculate the test that you want to run server side, and just tell the JavaScript library which flow was chosen.
+
+```javascript
+Abba('My Checkout').start('Variant A');
+```
+
+### Links
+
+If you're triggering the completion of a test on a link click or a form submit, then things get a bit more complicated.
+
+You need to ensure that tracking request doesn't get lost (which can happen in some browsers if you request an image at the same time as navigating). If the link is navigating to an external page which you don't control, then you have no choice but to cancel the link's default event, wait a few milliseconds, then navigate manually:
+
+```html
+<script>
+  $('body').on('click', 'a.external', function(e){
+    // Prevent navigation
+    e.preventDefault();
+    var href = $(this).attr('href');
+
+    Abba('My Links').complete();
+
+    setTimeout(function(){
+      window.location = href;
+    }, 400);
+  });
+</script>
+```
+
+That's far from ideal though, and it's much better to place the tracking code on the page you're going to navigate to. If you have control over the page, then add the following code that checks the URL's hash.
+
+```html
+<script>
+  if (window.location.hash.indexOf('_abbaTestComplete') != -1) {
+    Abba('My Links').complete();
+  }
+</script>
+```
+
+Then add the hash to the link's URL:
+
+```html
+<a href="/blog#_abbaTestComplete">
+```
 
 ## License
 MIT License. See the [LICENSE](LICENSE) file.
