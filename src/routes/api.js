@@ -1,17 +1,15 @@
-import createDebug from 'debug';
 import { Router } from 'express';
 import { check, validationResult } from 'express-validator/check';
 
 import Experiment from '../models/Experiment';
 import Variant from '../models/Variant';
 
-const debug = createDebug('abba:api');
 const routes = Router();
 
 /**
  * GET /api/start
  */
-routes.get('/start', check(['experiment', 'variant']).exists(), async (req, res, next) => {
+routes.get('/start', check(['experiment', 'variant']).exists(), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(422).json({errros: errors.array()});
 
@@ -29,7 +27,7 @@ routes.get('/start', check(['experiment', 'variant']).exists(), async (req, res,
 /**
  * GET /api/complete
  */
-routes.get('/complete', check(['experiment', 'variant']).exists(), async (req, res, next) => {
+routes.get('/complete', check(['experiment', 'variant']).exists(), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(422).json({errros: errors.array()});
 

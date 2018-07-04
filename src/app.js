@@ -2,9 +2,9 @@ import express from 'express';
 import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-import createError from 'http-errors';
 import chalk from 'chalk';
 import createDebug from 'debug';
+import createError from 'http-errors';
 import mongoose from 'mongoose';
 
 import routes from './routes';
@@ -16,12 +16,12 @@ const debug = createDebug('abba:app');
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(connection => {
-    console.log('%s Connected to MongoDB', chalk.green('✓'));
+  .then(() => {
+    console.log('%s Connected to MongoDB', chalk.green('✓')); // eslint-disable-line no-console
   })
   .catch(err => {
-    console.error(err);
-    console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+    debug(err);
+    console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗')); // eslint-disable-line no-console
     process.exit();
   });
 
@@ -46,7 +46,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

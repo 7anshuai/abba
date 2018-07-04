@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { check, validationResult } from 'express-validator/check';
+import createDebug from 'debug';
 import createError from 'http-errors';
 import moment from 'moment';
 
@@ -8,6 +9,7 @@ import Variant from '../models/Variant';
 import { VariantPresentorGroup } from '../models/VariantPresentor';
 
 const routes = Router();
+const debug = createDebug('abba:routes');
 
 /**
  * Set helper methods
@@ -69,7 +71,7 @@ routes.get('/admin/experiments', (req, res, next) => {
         });
     })
     .catch(err => {
-      console.error(err);
+      debug(err);
       next(err);
     });
 });
@@ -98,7 +100,7 @@ routes.get('/admin/experiments/:id/chart', check(['start_at', 'end_at']).exists(
 
     })
     .catch(err => {
-      console.error(err);
+      debug(err);
       next(err);
     })
 });
@@ -177,7 +179,7 @@ routes.get('/admin/experiments/:id', (req, res, next) => {
       });
     })
     .catch(err => {
-      console.error(err);
+      debug(err);
       next(err);
     });
 });

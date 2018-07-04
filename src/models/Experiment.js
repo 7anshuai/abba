@@ -42,7 +42,6 @@ experimentSchema.methods.granularConversionRate = function(options = {}) {
       return rates;
     })
     .catch(err => {
-      console.error(err);
       throw err;
     });
 };
