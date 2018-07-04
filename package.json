@@ -13,11 +13,12 @@
   "scripts": {
     "prestart": "npm run -s build",
     "start": "node bin/www",
-    "dev": "DEBUG=\"abba:*\" nodemon src/app --exec \"node -r dotenv/config -r babel-register\"",
+    "dev": "DEBUG=abba:* nodemon src/app --exec \"node -r dotenv/config -r babel-register\"",
     "clean": "rimraf dist",
+    "cover": "NODE_ENV=test nyc mocha --exit",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
-    "test": "jest --watch",
-    "lint": "esw -w src test"
+    "test": "mocha --compilers js:babel-register -r dotenv/config --exit",
+    "lint": "eslint src test"
   },
   "keywords": [
     "A/B Testing",
@@ -45,15 +46,14 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
-    "babel-jest": "^21.2.0",
+    "babel-plugin-istanbul": "^4.1.6",
     "babel-register": "^6.26.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.3.2",
-    "eslint-watch": "^3.1.3",
-    "jest": "^21.2.1",
+    "mocha": "^5.2.0",
     "nodemon": "^1.12.1",
+    "nyc": "^12.0.2",
     "supertest": "^3.0.0"
   },
   "babel": {
@@ -70,13 +70,19 @@
     "plugins": [
       "transform-object-rest-spread",
       "transform-class-properties"
-    ]
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
   },
   "eslintConfig": {
     "parser": "babel-eslint",
     "plugins": [
-      "import",
-      "jest"
+      "import"
     ],
     "parserOptions": {
       "ecmaVersion": 2017,
@@ -85,17 +91,23 @@
     "env": {
       "es6": true,
       "node": true,
-      "jest": true
+      "mocha": true
     },
     "extends": [
       "eslint:recommended"
     ],
-    "rules": {
-      "jest/no-focused-tests": 2,
-      "jest/no-identical-title": 2
-    }
+    "rules": {}
   },
-  "jest": {
-    "testEnvironment": "node"
+  "nyc": {
+    "require": [
+      "babel-register",
+      "dotenv/config"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
   }
 }

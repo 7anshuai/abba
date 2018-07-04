@@ -3,7 +3,7 @@ import app from '../src/app.js';
 
 describe('GET /', () => {
   it('should render properly', async () => {
-    await request(app).get('/').expect(200);
+    await request(app).get('/').expect(302);
   });
 });
 

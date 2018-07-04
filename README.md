@@ -42,9 +42,9 @@ This will launch a [nodemon](https://nodemon.io/) process for automatic server r
 
 ### Testing
 
-Testing is powered by [Jest](https://facebook.github.io/jest/). This project also uses [supertest](https://github.com/visionmedia/supertest) for demonstrating a simple routing smoke test suite.
+Testing is powered by [Mocha](https://mochajs.org/). This project also uses [supertest](https://github.com/visionmedia/supertest) for demonstrating a simple routing smoke test suite.
 
-Start the test runner in watch mode with:
+Start the test runner with:
 
 ```sh
 # yarn
@@ -58,10 +58,10 @@ You can also generate coverage with:
 
 ```sh
 # yarn
-yarn test --coverage
+yarn run cover
 
 # npm
-npm test -- --coverage
+npm run cover
 ```
 
 ### Linting
