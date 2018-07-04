@@ -78,7 +78,7 @@ variantSchema.methods.granularConversionRate = async function(options = {}) {
   let {
     duration = 1,
     start_at = moment().add(-7, 'days'),
-    end_at = momemt()
+    end_at = moment()
   } = options;
   let results = [];
 
