@@ -5,6 +5,7 @@ import createError from 'http-errors';
 import moment from 'moment';
 
 import Experiment from '../models/Experiment';
+import Request from '../models/Request';
 import Variant from '../models/Variant';
 import { VariantPresentorGroup } from '../models/VariantPresentor';
 
@@ -187,16 +188,36 @@ routes.get('/admin/experiments/:id', (req, res, next) => {
 /**
  * DELETE /admin/experiments/:id
  */
-routes.delete('/admin/experiments/:id', (req, res, next) => {
-  Experiment
-    .deleteOne({_id: req.params.id})
-    .then((result) => {
-      if (!result.ok) return next(createError(500));
-      res.json({});
-    })
-    .catch(err => {
-      next(err);
+routes.delete('/admin/experiments/:id', async (req, res, next) => {
+  let experiment = await Experiment.findOne({_id: req.params.id});
+  if (!experiment) return res.json({});
+
+  let variants = await Variant.find({experiment_id: req.params.id});
+
+  if (variants && variants.length) {
+    // delete variants and requests in parallel
+    const deleteMany = variants.map(async variant => {
+      const deleteRequests = await Request.deleteMany({$or: [{started_request_id: variant.id}, {completed_request_id: variant.id}]});
+      return variant.remove();
     });
+
+    for (let deleteOne of deleteMany) {
+      try {
+        await deleteOne;
+      } catch (err) {
+        return next(err);
+      }
+    }
+  }
+
+  // remove this experiment
+  try {
+    await experiment.remove();
+  } catch (err) {
+    return next(err);
+  }
+
+  res.json({});
 });
 
 export default routes;
