@@ -1,3 +1,6 @@
+import { timingSafeEqual } from 'crypto';
+
+import auth from 'basic-auth'
 import { Router } from 'express';
 import { check, validationResult } from 'express-validator/check';
 import createDebug from 'debug';
@@ -32,6 +35,19 @@ routes.use(function(req, res, next) {
   res.locals.precisionRound = function (number, precision) {
     let factor = Math.pow(10, precision);
     return Math.round(number * factor) / factor;
+  }
+  next();
+});
+
+/**
+ * HTTP Basic Auth
+ */
+routes.get('/admin/*', (req, res, next) => {
+  if (req.app.get('env') !== 'production') return next();
+
+  let credentials = auth(req);
+  if (!credentials || !authorized(credentials.name, credentials.pass)) {
+    return res.append('WWW-Authenticate', 'Basic realm="Abba HTTP Auth"').status(401).end('Not authorized\n');
   }
   next();
 });
@@ -219,5 +235,16 @@ routes.delete('/admin/experiments/:id', async (req, res, next) => {
 
   res.json({});
 });
+
+function authorized(name, pass) {
+  let valid = true;
+  let {USERNAME, PASSWORD} = process.env;
+
+  if (name.length !== USERNAME.length || pass.length !== PASSWORD.length) return false;
+
+  valid = timingSafeEqual(Buffer.from(name), Buffer.from(USERNAME)) && valid;
+  valid = timingSafeEqual(Buffer.from(pass), Buffer.from(PASSWORD)) && valid;
+  return valid;
+}
 
 export default routes;
