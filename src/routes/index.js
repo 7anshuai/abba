@@ -197,7 +197,7 @@ routes.delete('/admin/experiments/:id', async (req, res, next) => {
   if (variants && variants.length) {
     // delete variants and requests in parallel
     const deleteMany = variants.map(async variant => {
-      const deleteRequests = await Request.deleteMany({$or: [{started_request_id: variant.id}, {completed_request_id: variant.id}]});
+      await Request.deleteMany({$or: [{started_request_id: variant.id}, {completed_request_id: variant.id}]});
       return variant.remove();
     });
 

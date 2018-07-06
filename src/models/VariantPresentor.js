@@ -9,12 +9,12 @@ export default class VariantPresentor {
   }
 
   async startedCount() {
-    this.started_count = this.started_count || (await this.startedRequests());
+    this.started_count = this.started_count || (await this._startedRequests());
     return this.started_count;
   }
 
   async completedCount() {
-    this.completed_count = this.completed_count || (await this.completedRequests());
+    this.completed_count = this.completed_count || (await this._completedRequests());
     return this.completed_count;
   }
 
@@ -30,10 +30,12 @@ export default class VariantPresentor {
   }
 
   async percentDifference() {
-    if (this._control() || !this.control) return;
-    if (await this.control.conversionRate() == 0) return 0;
+    if (this.isControl() || !this.control) return;
+
     let conversionRate = await this.conversionRate();
     let controlConversionRate = await this.control.conversionRate();
+
+    if (controlConversionRate == 0) return 0;
     let rate = (conversionRate - controlConversionRate) / controlConversionRate;
     return Math.fround(rate * 100);
   }
@@ -46,11 +48,11 @@ export default class VariantPresentor {
     return this.variant.name;
   }
 
-  _control() {
+  isControl() {
     return this.variant.control;
   }
 
-  startedRequests() {
+  _startedRequests() {
     let query = Request.find({started_request_id: this.variant.id});
 
     if (this.options.start_at && this.options.end_at) {
@@ -63,7 +65,7 @@ export default class VariantPresentor {
     return query.exec();
   }
 
-  completedRequests() {
+  _completedRequests() {
     let query = Request.find({completed_request_id: this.variant.id});
 
     if (this.options.start_at && this.options.end_at) {
