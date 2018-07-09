@@ -59,7 +59,7 @@ routes.get('/start', check(['experiment', 'variant']).exists(), async (req, res)
   if (!experiment) experiment = await Experiment.create({name: req.query.experiment});
 
   let variant = await Variant.findOne({name: req.query.variant, experiment_id: experiment.id});
-  if (!variant) variant = await Variant.create({name: req.query.variant, experiment_id: experiment.id});
+  if (!variant) variant = await Variant.create({name: req.query.variant, experiment_id: experiment.id, control: req.query.control});
 
   if (experiment.running) await variant.start(req);
   res.sendFile('public/images/blank.gif', {root: process.cwd()});
