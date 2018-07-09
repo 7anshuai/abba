@@ -14,35 +14,31 @@ import { VariantPresentorGroup } from '../models/VariantPresentor';
 
 const routes = Router();
 const debug = createDebug('abba:routes');
-
-/**
- * Set helper methods
- */
-routes.use(function(req, res, next) {
-  res.locals.dir = function(value) {
+const helper = {
+  dir(value) {
     if (!value || value == 0) return;
     return value > 0 ? 'positive' : 'negative';
-  }
-  res.locals.setTitle = function(value = null) {
-    let title;
-    if (value)
-      title = value;
-    return title ? `Abba - ${title}` : 'Abba';
-  }
-  res.locals.selected = function(value, present) {
-    if (value === present) return ' selected '
-  }
-  res.locals.precisionRound = function (number, precision) {
+  },
+  setTitle(value = null) {
+    return value ? `Abba - ${value}` : 'Abba';
+  },
+  selected(value, present) {
+    if (value === present) return ' selected ';
+  },
+  precisionRound(number, precision) {
     let factor = Math.pow(10, precision);
     return Math.round(number * factor) / factor;
   }
-  next();
-});
+};
+
 
 /**
- * HTTP Basic Auth
+ * HTTP Basic Auth and helper methods
  */
 routes.get('/admin/*', (req, res, next) => {
+  // Set helper methods
+  Object.assign(res.locals, helper);
+
   if (req.app.get('env') !== 'production') return next();
 
   let credentials = auth(req);
