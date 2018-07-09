@@ -1,5 +1,20 @@
+import range from 'lodash.range';
+
 import Request from './Request';
 import Variant from './Variant';
+
+let Z_TO_PROBABILITY;
+try {
+  let a = 50.0;
+  let normDist = [];
+
+  for (let x of range(0.0, 3.11, 0.01)) {
+    normDist.push([x, a += 1 / Math.sqrt(2 * Math.PI) * Math.E ** -(x ** 2 / 2)]);
+  }
+  Z_TO_PROBABILITY = [90, 95, 99, 99.9].map(pct => [normDist.find(([x, a]) => a >= pct)[0], pct]).reverse();
+} catch (err) {
+  throw err;
+}
 
 export default class VariantPresentor {
   constructor(variant, control = null, options = {}) {
@@ -40,6 +55,17 @@ export default class VariantPresentor {
     return Math.fround(rate * 100);
   }
 
+  async probability() {
+    if (await this.completedCount() < 25) return;
+
+    let score = await this.zscore();
+    score = Math.abs(score);
+    if (!score) return;
+
+    let probability = Z_TO_PROBABILITY.find(([z, p]) => score >= z)
+    return probability && probability.length ? probability[probability.length - 1] : 0;
+  }
+
   id() {
     return this.variant.id;
   }
@@ -77,6 +103,18 @@ export default class VariantPresentor {
     }
 
     return query.exec();
+  }
+
+  async zscore() {
+    if (this.isControl() || !this.control) return;
+
+    let pc = await this.control.conversionRate();
+    let nc = await this.control.startedCount();
+    let p = await this.conversionRate();
+    let n = await this.startedCount();
+
+    if (nc == 0 || n == 0) return;
+    return (p - pc) /  Math.abs(((p * (1 - p) / n ) + (pc * (1 - pc) / nc))) ** 0.5;
   }
 }
 

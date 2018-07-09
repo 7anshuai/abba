@@ -40,6 +40,7 @@
     "express": "^4.16.2",
     "express-validator": "^5.2.0",
     "http-errors": "^1.6.3",
+    "lodash.range": "^3.2.0",
     "moment": "^2.22.2",
     "mongoose": "^5.1.5",
     "morgan": "^1.9.0",

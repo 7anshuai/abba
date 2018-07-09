@@ -97,8 +97,8 @@
                   <td class="name"><%= variant.name %></td>
                   <td class="overall"><%= variant.completedCount %> / <%= variant.startedCount %></td>
                   <td class="conversion <%= dir(variant.percentConversionRate) %>"><%= precisionRound(variant.percentConversionRate, 1) %></td>
-                  <td class="probability <%= dir(variant.probability) %>"></td>
-                  <td class="difference <%= dir(variant.percentDifference) %>"><%= variant.percentDifference %></td>
+                  <td class="probability <%= dir(variant.probability) %>"><%= variant.probability %></td>
+                  <td class="difference <%= dir(variant.percentDifference) %>"><%= variant.percentDifference && precisionRound(variant.percentDifference, 1) %></td>
                 </tr>
               <% }) %>
             </tbody>

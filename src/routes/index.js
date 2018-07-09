@@ -211,7 +211,8 @@ routes.get('/admin/experiments/:id', (req, res, next) => {
         let completedCount = await variantPresentor.completedCount();
         let percentConversionRate = await variantPresentor.percentConversionRate();
         let percentDifference = await variantPresentor.percentDifference();
-        variants.push({name, startedCount, completedCount, percentConversionRate, percentDifference});
+        let probability = await variantPresentor.probability();
+        variants.push({name, startedCount, completedCount, percentConversionRate, percentDifference, probability});
       }
 
       res.render('experiment', {
