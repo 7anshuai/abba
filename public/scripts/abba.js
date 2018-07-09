@@ -91,7 +91,7 @@
   };
 
   this.Abba = (function() {
-    Abba.prototype.endpoint = 'http://localhost:8080/api';
+    Abba.prototype.endpoint = 'http://localhost:8080/';
 
     Abba.prototype.defaults = {
       path: '/',
@@ -329,7 +329,7 @@
       return results;
     })();
     if (scripts[0]) {
-      return Abba.endpoint = "//" + (host(scripts[0])) + "/api";
+      return Abba.endpoint = "//" + (host(scripts[0]));
     }
   })();
 
