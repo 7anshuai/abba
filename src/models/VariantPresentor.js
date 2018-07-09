@@ -9,20 +9,20 @@ export default class VariantPresentor {
   }
 
   async startedCount() {
-    this.started_count = this.started_count || (await this._startedRequests());
+    this.started_count = this.started_count || (await this._startedRequests()).length;
     return this.started_count;
   }
 
   async completedCount() {
-    this.completed_count = this.completed_count || (await this._completedRequests());
+    this.completed_count = this.completed_count || (await this._completedRequests()).length;
     return this.completed_count;
   }
 
   async conversionRate() {
     let startedCount = await this.startedCount();
     let completedCount = await this.completedCount();
-    if (startedCount.length == 0) return 0;
-    return completedCount.length / startedCount.length;
+    if (startedCount == 0) return 0;
+    return completedCount / startedCount;
   }
 
   async percentConversionRate() {

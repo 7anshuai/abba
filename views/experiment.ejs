@@ -95,7 +95,7 @@
               <% variants.forEach(function (variant){ %>
                 <tr data-id="<%= variant.id %>">
                   <td class="name"><%= variant.name %></td>
-                  <td class="overall"><%= variant.completedCount.length %> / <%= variant.startedCount.length %></td>
+                  <td class="overall"><%= variant.completedCount %> / <%= variant.startedCount %></td>
                   <td class="conversion <%= dir(variant.percentConversionRate) %>"><%= precisionRound(variant.percentConversionRate, 1) %></td>
                   <td class="probability <%= dir(variant.probability) %>"></td>
                   <td class="difference <%= dir(variant.percentDifference) %>"><%= variant.percentDifference %></td>
