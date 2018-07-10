@@ -1,4 +1,4 @@
-# abba
+# abba [![Build Status](https://travis-ci.org/7anshuai/abba.svg?branch=master)](https://travis-ci.org/7anshuai/abba)
 
 abba is a simple a/b testing framework for JavaScript and Node.js.
 
@@ -76,12 +76,6 @@ yarn run lint
 
 # npm
 npm run lint
-```
-
-To begin linting and start the server simultaneously, edit the `package.json` like this:
-
-```
-"dev": "nodemon src/index.js --exec \"node -r dotenv/config -r babel-register\" | npm run lint"
 ```
 
 ### Environmental variables in development
