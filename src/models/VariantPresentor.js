@@ -11,7 +11,7 @@ try {
   for (let x of range(0.0, 3.11, 0.01)) {
     normDist.push([x, a += 1 / Math.sqrt(2 * Math.PI) * Math.E ** -(x ** 2 / 2)]);
   }
-  Z_TO_PROBABILITY = [90, 95, 99, 99.9].map(pct => [normDist.find(([x, a]) => a >= pct)[0], pct]).reverse();
+  Z_TO_PROBABILITY = [90, 95, 99, 99.9].map(pct => [normDist.find(([x, a]) => a >= pct)[0], pct]).reverse(); // eslint-disable-line no-unused-vars
 } catch (err) {
   throw err;
 }
@@ -62,7 +62,7 @@ export default class VariantPresentor {
     score = Math.abs(score);
     if (!score) return;
 
-    let probability = Z_TO_PROBABILITY.find(([z, p]) => score >= z)
+    let probability = Z_TO_PROBABILITY.find(([z, p]) => score >= z); // eslint-disable-line no-unused-vars
     return probability && probability.length ? probability[probability.length - 1] : 0;
   }
 

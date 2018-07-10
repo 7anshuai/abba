@@ -18,7 +18,7 @@
     "cover": "NODE_ENV=test nyc mocha --exit",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
     "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel-register -r dotenv/config --exit",
+    "test": "MONGODB_URI=mongodb://localhost:27017/abba-test mocha --compilers js:babel-register -r dotenv/config --exit",
     "lint": "eslint src test"
   },
   "keywords": [
