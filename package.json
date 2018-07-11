@@ -13,12 +13,12 @@
   "scripts": {
     "prestart": "npm run -s build",
     "start": "node bin/www",
-    "dev": "DEBUG=abba:* nodemon src/app --exec \"node -r dotenv/config -r babel-register\"",
+    "dev": "cross-env DEBUG=abba:* nodemon src/app --exec \"node -r dotenv/config -r babel-register\"",
     "clean": "rimraf dist",
-    "cover": "MONGODB_URI=mongodb://localhost/abba-test NODE_ENV=test nyc mocha --exit",
+    "cover": "cross-env MONGODB_URI=mongodb://localhost/abba-test NODE_ENV=test nyc mocha --exit",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
     "pretest": "npm run lint",
-    "test": "MONGODB_URI=mongodb://localhost/abba-test mocha --compilers js:babel-register -r dotenv/config --exit",
+    "test": "cross-env MONGODB_URI=mongodb://localhost/abba-test NODE_ENV=test mocha --compilers js:babel-register -r dotenv/config --exit",
     "lint": "eslint src test"
   },
   "keywords": [
@@ -51,6 +51,7 @@
     "babel-eslint": "^8.0.3",
     "babel-plugin-istanbul": "^4.1.6",
     "babel-register": "^6.26.0",
+    "cross-env": "^5.2.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
     "eslint-plugin-import": "^2.8.0",
