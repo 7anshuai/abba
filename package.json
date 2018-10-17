@@ -15,10 +15,10 @@
     "start": "node bin/www",
     "dev": "cross-env DEBUG=abba:* nodemon src/app --exec \"node -r dotenv/config -r babel-register\"",
     "clean": "rimraf dist",
-    "cover": "cross-env MONGODB_URI=mongodb://localhost/abba-test NODE_ENV=test nyc mocha --exit",
+    "cover": "cross-env MONGODB_URI=mongodb://localhost:27017/abba-test NODE_ENV=test nyc mocha --exit",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
     "pretest": "npm run lint",
-    "test": "cross-env MONGODB_URI=mongodb://localhost/abba-test NODE_ENV=test mocha --compilers js:babel-register -r dotenv/config --exit",
+    "test": "cross-env MONGODB_URI=mongodb://localhost:27017/abba-test NODE_ENV=test mocha --require babel-register --exit",
     "lint": "eslint src test"
   },
   "keywords": [
@@ -104,8 +104,7 @@
   },
   "nyc": {
     "require": [
-      "babel-register",
-      "dotenv/config"
+      "babel-register"
     ],
     "reporter": [
       "lcov",
