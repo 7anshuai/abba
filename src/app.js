@@ -14,7 +14,7 @@ const debug = createDebug('abba:app');
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(() => {
     console.log('%s Connected to MongoDB', chalk.green('✓')); // eslint-disable-line no-console
   })
