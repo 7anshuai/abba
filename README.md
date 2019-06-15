@@ -1,4 +1,4 @@
-# abba [![Build Status](https://travis-ci.org/7anshuai/abba.svg?branch=master)](https://travis-ci.org/7anshuai/abba)
+# abba [![Build Status](https://travis-ci.org/7anshuai/abba.svg?branch=master)](https://travis-ci.org/7anshuai/abba) [![Greenkeeper badge](https://badges.greenkeeper.io/7anshuai/abba.svg)](https://greenkeeper.io/)
 
 abba is a simple a/b testing framework for JavaScript and Node.js.
 
