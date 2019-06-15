@@ -13,12 +13,12 @@
   "scripts": {
     "prestart": "npm run -s build",
     "start": "node bin/www",
-    "dev": "cross-env DEBUG=abba:* nodemon src/app --exec \"node -r dotenv/config -r babel-register\"",
+    "dev": "cross-env DEBUG=abba:* nodemon src/app --exec \"node -r dotenv/config -r @babel/register\"",
     "clean": "rimraf dist",
     "cover": "cross-env MONGODB_URI=mongodb://localhost:27017/abba-test NODE_ENV=test nyc mocha --exit",
     "build": "npm run clean && mkdir -p dist && babel src -s -D -d dist",
     "pretest": "npm run lint",
-    "test": "cross-env MONGODB_URI=mongodb://localhost:27017/abba-test NODE_ENV=test mocha --require babel-register --exit",
+    "test": "cross-env MONGODB_URI=mongodb://localhost:27017/abba-test NODE_ENV=test mocha --require @babel/register --exit",
     "lint": "eslint src test"
   },
   "keywords": [
@@ -28,10 +28,9 @@
     "abba"
   ],
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "basic-auth": "^2.0.0",
     "body-parser": "^1.18.2",
     "chalk": "^2.4.1",
@@ -48,13 +47,13 @@
     "ua-parser-js": "^0.7.18"
   },
   "devDependencies": {
+    "@babel/register": "^7.4.4",
     "babel-eslint": "^10.0.1",
     "babel-plugin-istanbul": "^5.1.4",
-    "babel-register": "^6.26.0",
     "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.17.3",
     "mocha": "^6.1.4",
     "nodemon": "^1.12.1",
     "nyc": "^14.1.1",
@@ -63,17 +62,13 @@
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "node": "current"
           }
         }
       ]
-    ],
-    "plugins": [
-      "transform-object-rest-spread",
-      "transform-class-properties"
     ],
     "env": {
       "test": {
@@ -104,7 +99,7 @@
   },
   "nyc": {
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "reporter": [
       "lcov",
