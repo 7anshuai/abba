@@ -110,7 +110,7 @@
   },
   "greenkeeper": {
     "ignore": [
-      "dot-env"
+      "dotenv"
     ]
   }
 }
