@@ -37,7 +37,7 @@
     "debug": "^4.1.1",
     "ejs": "^2.6.1",
     "express": "^4.16.2",
-    "express-validator": "^5.2.0",
+    "express-validator": "^6.0.1",
     "http-errors": "^1.6.3",
     "lodash.range": "^3.2.0",
     "moment": "^2.22.2",
