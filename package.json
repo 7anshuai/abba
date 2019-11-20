@@ -55,7 +55,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.17.3",
     "mocha": "^6.1.4",
-    "nodemon": "^1.12.1",
+    "nodemon": "^2.0.0",
     "nyc": "^14.1.1",
     "supertest": "^4.0.2"
   },
