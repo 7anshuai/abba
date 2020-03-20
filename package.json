@@ -42,7 +42,7 @@
     "lodash.range": "^3.2.0",
     "moment": "^2.22.2",
     "mongoose": "^5.1.5",
-    "morgan": "^1.9.0",
+    "morgan": "1.9.1",
     "rimraf": "^3.0.0",
     "ua-parser-js": "^0.7.18"
   },
