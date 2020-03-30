@@ -41,7 +41,7 @@
     "http-errors": "^1.6.3",
     "lodash.range": "^3.2.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.1.5",
+    "mongoose": "^5.9.7",
     "morgan": "^1.9.0",
     "rimraf": "^3.0.0",
     "ua-parser-js": "^0.7.18"
